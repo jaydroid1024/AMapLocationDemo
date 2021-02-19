@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+android {
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+    signingConfigs {
+        /**
+         *
+         * 设置你的keystore相关
+         * demo中只是一个示例，使用时请根据实际情况进行配置
+         * Variant: debugUnitTest
+         * Config: debug
+         * Store: /Users/xuejiewang/Downloads/高德地图/AMap_Android_Demo/AMap_Android_API_Location_Demo/android_studio/AMapLocationDemo/keystore/location.jks
+         * Alias: android-location
+         * MD5: 31:EF:8D:29:A6:E8:CB:8B:20:54:9A:0D:64:8C:59:D0
+         * SHA1: C1:F4:91:0D:F1:FB:8D:AF:99:0C:7B:03:C5:8D:9D:C5:03:C8:75:1D
+         * Valid until: 2046年2月13日 星期二
+         */
+        debug {
+            //keystore中key的别名
+            keyAlias 'android-location'
+            //keystore中key的密码
+            keyPassword 'android'
+            //keystore的文件路径，可以是绝对路径也可以是相对路径
+            storeFile file('../keystore/location.jks')
+            //keystore的密码
+            storePassword 'android'
+        }
+    }
+    compileSdkVersion 29
+    buildToolsVersion '29.0.0'
+
+    defaultConfig {
+        applicationId "com.amap.location.demo"
+        minSdkVersion 14
+        targetSdkVersion 29
+        versionCode 2
+        versionName "2.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+//使用aar包时需要加上这段
+//repositories {
+//    flatDir { dirs 'libs' }
+//}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':diagnose:locdiagnoselib')
+    //    使用aar包时使用此种方式
+    //    compile (name:'AMapLocation_4.5.0_20190122', ext:'aar')
+}
